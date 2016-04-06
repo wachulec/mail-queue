@@ -11,7 +11,7 @@ class Mailbox
 {
     public function retrieve( $amount )
     {
-        $rows = Mails::where('status', 1)
+        $rows = Mails::where('status', Post::PENDING)
                 ->orderBy( 'created_at', 'asc' )
                 ->take( $amount )
                 ->get();
@@ -19,7 +19,7 @@ class Mailbox
         $posts = [];
 
         foreach( $rows as $row ) {
-            $status = 2; //in progress
+            $status = Post::INPROGRESS; //in progress
 
             $posts[ $row->id ] = [
                 'post'      => $this->createMailObject( $row ),
